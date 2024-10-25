@@ -1,13 +1,25 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 async function connectDB() {
     try {
-        await mongoose.connect('mongodb://localhost:27017')
-    } catch (err) {
-        console.log(err)
-    }
+        // Use MONGODB_URI from .env, fallback to local MongoDB
+        const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ShopSphere';
+        
+        await mongoose.connect(dbURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        
+        console.log('Successfully connected to MongoDB');
+        
+        // Optional: Verify connection by querying the `user` model
+        const User = mongoose.model('user');
+        const sampleUser = await User.findOne();
+        console.log("Sample user:", sampleUser);
 
-    await mongoose.model('user').findOne()
+    } catch (err) {
+        console.log("Database connection error:", err);
+    }
 }
 
-module.exports = connectDB 
+module.exports = connectDB;
