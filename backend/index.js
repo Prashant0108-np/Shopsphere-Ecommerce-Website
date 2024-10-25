@@ -9,10 +9,10 @@ const app = express();
 
 // Enable CORS with the frontend URL
 app.use(cors({
-         origin: 'https://shopsphere-ecommerce-website-frontend.vercel.app', 
-         methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-         allowedHeaders: ['Content-Type', 'Authorization'] // Allow specific headers
-     }));
+    origin: process.env.FRONTEND_URL,
+    methods: ["POST", "GET"],
+    credentials: true
+}));;
 
 // Middleware to parse JSON and cookies
 app.use(express.json());
